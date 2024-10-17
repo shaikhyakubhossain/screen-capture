@@ -1,0 +1,17 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "run",
+            "type":"shell",
+            "command": "npm run dev",
+            "presentation": {
+                "reveal": "always",
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+            
+        }
+    ]
+}
