@@ -1,0 +1,33 @@
+# Node modules
+node_modules/
+
+# Build output directories
+out/
+build/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Compiled TypeScript files
+*.tsbuildinfo
+
+# Vite related
+dist/
+.cache/
+
+# Electron specific
+*.asar
+electron-builder-output/
