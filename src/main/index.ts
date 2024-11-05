@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { desktopCapturer } from 'electron'
 
 function createWindow(): void {
   // Create the browser window.
@@ -11,9 +12,13 @@ function createWindow(): void {
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
+    // vibrancy: 'under-window',
+    // titleBarStyle: 'hidden',
+    title: 'Screen Capture',
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: true,
+      contextIsolation: true
     }
   })
 
@@ -68,6 +73,16 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+// test
+// ipcMain.on('hii', (event, message: string): void => {
+//   console.log('hello from main.js, message: ' + message)
+//   // event.reply('hii', 'hello from main.js')
+// })
+
+ipcMain.handle('getVideoSources', async () => {
+  return await desktopCapturer.getSources({ types: ['window', 'screen'] })
 })
 
 // In this file you can include the rest of your app"s specific main process
