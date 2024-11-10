@@ -17,7 +17,7 @@ function App(): JSX.Element {
   }, [])
 
   return (
-    <div className="bg-black h-dvh text-center">
+    <div className="flex flex-col items-center justify-center bg-black h-dvh text-center">
       <VideoSource VideoSources={VideoSources} />
     </div>
   )
