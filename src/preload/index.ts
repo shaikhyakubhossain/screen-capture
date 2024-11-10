@@ -7,7 +7,7 @@ if (!process.contextIsolated) {
 try {
   contextBridge.exposeInMainWorld('electronAPI', {
     myFunction: (message: string) => ipcRenderer.send('hii', message),
-    getVideoSources: () => ipcRenderer.invoke('getVideoSources')
+    getVideoSources: () => ipcRenderer.invoke('getVideoSources'),
   })
 } catch (e) {
   console.log("error in preload")

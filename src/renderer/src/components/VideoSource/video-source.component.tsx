@@ -12,7 +12,7 @@ export default function VideoSource(props: propsType): JSX.Element {
   const [showVideoSourceMenu, setShowVideoSourceMenu] = useState<boolean>(false)
     return (
         <div className="relative">
-          <div className="flex flex-row-reverse justify-evenly">
+          <div className="flex flex-row-reverse">
             <div className="bg-yellow-800">video source: <span className="">{props.selectedScreenSource === null ? 'None' : props.selectedScreenSource.name}</span></div>
             <Btn onClick={() => setShowVideoSourceMenu(!showVideoSourceMenu)}>Select Video Source</Btn>
           </div>
