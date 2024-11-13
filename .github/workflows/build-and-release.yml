@@ -17,7 +17,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
+
+      - name: Install dependencies
+        run: yarn install
+        
+      - name: Install TypeScript
+        run: yarn global add typescript
 
       - name: Build/release Electron app
         uses: paneron/action-electron-builder@v1.8.1
