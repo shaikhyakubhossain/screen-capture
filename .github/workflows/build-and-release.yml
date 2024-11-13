@@ -23,8 +23,8 @@ jobs:
         run: npm install
         
       - name: Install TypeScript
-        run: npm global add typescript
-
+        run: npm install -g typescript
+        
       # - name: Build/release Electron app
       #   uses: paneron/action-electron-builder@v1.8.1
       #   with:
