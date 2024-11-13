@@ -85,7 +85,7 @@ ipcMain.handle('getVideoSources', async () => {
   return await desktopCapturer.getSources({ types: ['window', 'screen'] })
 })
 
-ipcMain.handle('saveRecording', async (event, recordedChunks: any) => {
+ipcMain.handle('saveRecording', async (_, recordedChunks: any) => {
   const blob = new Blob(recordedChunks, { type: 'video/webm' })
   // const buffer = Buffer.from(await blob.arrayBuffer())
   const blobUrl = URL.createObjectURL(blob)
@@ -93,7 +93,6 @@ ipcMain.handle('saveRecording', async (event, recordedChunks: any) => {
   a.href = blobUrl
   a.download = 'screencast.webm'
   a.click()
-  return 'done'
 })
 
 // In this file you can include the rest of your app"s specific main process

@@ -2,8 +2,6 @@ import './index.css'
 import { useState, useEffect, useRef } from 'react'
 import VideoSource from './components/VideoSource/video-source.component'
 import type { VideoSourcesType } from './constants/Types/types'
-import { electronAPI } from '@electron-toolkit/preload'
-import { constants } from 'node:http2'
 
 function App(): JSX.Element {
 
@@ -28,12 +26,12 @@ function App(): JSX.Element {
 
   let mediaRecorder: any
 
-  const getVideoSourcesFromMain = async () => {
+  const getVideoSourcesFromMain = async (): Promise<void> => {
     const VideoSources: VideoSourcesType[] = await window.electronAPI.getVideoSources()
     setVideoSources(VideoSources)
   }
 
-  const startRecording = async () => {
+  const startRecording = async (): Promise<void> => {
     const vidElement = videoRef.current
       const stream = await navigator.mediaDevices.getUserMedia(constraints)
       if (vidElement) {
@@ -46,15 +44,15 @@ function App(): JSX.Element {
     mediaRecorder.start()
   }
 
-  const stopRecording = () => {
+  const stopRecording = (): void => {
     mediaRecorder.stop()
   }
 
-  const onDataAvailable = (event: any) => {
+  const onDataAvailable = (event: any): void => {
     recordedChunks.push(event.data)
   }
 
-  const onRecordingStop = async () => {
+  const onRecordingStop = async (): Promise<void> => {
     const blob = new Blob(recordedChunks, { type: 'video/webm' })
     // window.electronAPI.saveRecording(recordedChunks)
     // const buffer = Buffer.from(await blob.arrayBuffer())

@@ -1,0 +1,39 @@
+name: Build and Release Electron App
+
+on:
+  push:
+    tags:
+      - 'v-*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Electron App For Windows
+        run: npm run build:win
+
+    #   - name: Package Electron App
+    #     run: npm run dist
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*.{dmg,exe,AppImage}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Publish Release
+        if: success()
+        run: |
+          echo "Release created and assets uploaded."
