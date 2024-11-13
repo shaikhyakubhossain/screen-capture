@@ -8,6 +8,7 @@ declare global {
     electronAPI: {
       myFunction: (message: string) => void
       getVideoSources: () => any
+      saveRecording: (recordedChunks: any) => any
     }
   }
 }

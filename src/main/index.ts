@@ -85,5 +85,16 @@ ipcMain.handle('getVideoSources', async () => {
   return await desktopCapturer.getSources({ types: ['window', 'screen'] })
 })
 
+ipcMain.handle('saveRecording', async (event, recordedChunks: any) => {
+  const blob = new Blob(recordedChunks, { type: 'video/webm' })
+  // const buffer = Buffer.from(await blob.arrayBuffer())
+  const blobUrl = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = blobUrl
+  a.download = 'screencast.webm'
+  a.click()
+  return 'done'
+})
+
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.

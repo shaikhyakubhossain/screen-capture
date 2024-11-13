@@ -8,6 +8,7 @@ try {
   contextBridge.exposeInMainWorld('electronAPI', {
     myFunction: (message: string) => ipcRenderer.send('hii', message),
     getVideoSources: () => ipcRenderer.invoke('getVideoSources'),
+    saveRecording: (recordedChunks: any) => ipcRenderer.invoke('saveRecording', recordedChunks)
   })
 } catch (e) {
   console.log("error in preload")
