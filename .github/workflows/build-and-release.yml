@@ -20,14 +20,25 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
         
       - name: Install TypeScript
-        run: yarn global add typescript
+        run: npm global add typescript
 
-      - name: Build/release Electron app
-        uses: paneron/action-electron-builder@v1.8.1
+      # - name: Build/release Electron app
+      #   uses: paneron/action-electron-builder@v1.8.1
+      #   with:
+      #       build_script_name: build:win
+      #       github_token: ${{ secrets.GH_TOKEN }}
+      #       release: ${{ startsWith(github.ref, 'refs/tags/v-') }}
+
+      - name: Build Electron app
+        run: npm build:win
+
+      - name: Release Electron app
+        uses: ncipollo/release-action@v1.14.0
         with:
-            build_script_name: build:win
-            github_token: ${{ secrets.GH_TOKEN }}
-            release: ${{ startsWith(github.ref, 'refs/tags/v-') }}
+          token: ${{ secrets.GH_TOKEN }}
+          tag: ${{ github.ref_name }}
+          artifacts: './dist/*.exe'
+          generateReleaseNotes: true
