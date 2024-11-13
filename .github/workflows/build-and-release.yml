@@ -33,7 +33,7 @@ jobs:
       #       release: ${{ startsWith(github.ref, 'refs/tags/v-') }}
 
       - name: Build Electron app
-        run: npm build:win
+        run: npm run build:win
 
       - name: Release Electron app
         uses: ncipollo/release-action@v1.14.0
