@@ -13,7 +13,7 @@ export default function VideoSource(props: propsType): JSX.Element {
     return (
         <div className="relative">
           <div className="flex flex-row-reverse justify-center items-center">
-            <div className="flex items-center bg-yellow-800 p-2 rounded text-center">video source:<div className="">{props.selectedScreenSource === null ? 'None' : props.selectedScreenSource.name}</div></div>
+            <div className="flex items-center bg-yellow-800 p-2 rounded text-center">video source:&nbsp;<div className="">{props.selectedScreenSource === null ? 'None' : props.selectedScreenSource.name}</div></div>
             <Btn onClick={() => setShowVideoSourceMenu(!showVideoSourceMenu)}>Select Video Source</Btn>
           </div>
       <div className="absolute top-12 left-0 w-60 h-20 p-2 text-black bg-black overflow-y-scroll" style={{display: showVideoSourceMenu ? 'block' : 'none', scrollbarWidth: 'none'}}>

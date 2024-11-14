@@ -102,7 +102,7 @@ function App(): JSX.Element {
 
   return (
     <div className="flex flex-col items-center justify-center bg-black text-white h-dvh text-center">
-      <video className="w-1/2 m-4" ref={videoRef}></video>
+      <video className="w-3/4 m-4" ref={videoRef}></video>
       <VideoSource VideoSources={VideoSources} updateScreenId={setScreenSource} selectedScreenSource={screenSource} />
       <div className='flex my-2'>
       <Btn disabled={screenSource === null ? true : false} onClick={startRecording}>Start</Btn>
