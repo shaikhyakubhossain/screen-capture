@@ -14,7 +14,7 @@ asarUnpack:
 win:
   executableName: screen-capture
 nsis:
-  artifactName: ${name}-${version}-setup.${ext}
+  artifactName: ${name}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
@@ -36,7 +36,7 @@ linux:
   maintainer: electronjs.org
   category: Utility
 appImage:
-  artifactName: ${name}-${version}.${ext}
+  artifactName: ${name}.${ext}
 npmRebuild: false
 publish:
   provider: generic
