@@ -1,6 +1,7 @@
 import './index.css'
 import { useState, useEffect, useRef } from 'react'
 import VideoSource from './components/VideoSource/video-source.component'
+import Btn from './components/Btn/btn.component'
 import type { VideoSourcesType } from './constants/Types/types'
 
 function App(): JSX.Element {
@@ -8,6 +9,7 @@ function App(): JSX.Element {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   const recordedChunks: any[] = []
+  let mediaRecorder: MediaRecorder | null = null
 
   const [VideoSources, setVideoSources] = useState<VideoSourcesType[] | null>(null)
   const [screenSource, setScreenSource] = useState<VideoSourcesType | null>(null)
@@ -23,29 +25,40 @@ function App(): JSX.Element {
       }
     }
   })
-
-  let mediaRecorder: any
+  const [stream, setStream] = useState<MediaStream | null>(null)
 
   const getVideoSourcesFromMain = async (): Promise<void> => {
     const VideoSources: VideoSourcesType[] = await window.electronAPI.getVideoSources()
     setVideoSources(VideoSources)
   }
 
-  const startRecording = async (): Promise<void> => {
+  const assignStream = async (): Promise<void> => {
+    const stream = await navigator.mediaDevices.getUserMedia(constraints)
+    setStream(stream)
+  }
+
+  const startVideoPreview = async (): Promise<void> => {
     const vidElement = videoRef.current
-      const stream = await navigator.mediaDevices.getUserMedia(constraints)
-      if (vidElement) {
+    if (vidElement) {
       vidElement.srcObject = stream
       await vidElement.play()
+    }      
+  }
+
+  const startRecording =(): void => {
+    if(stream){
+      mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' })
+      mediaRecorder.ondataavailable = onDataAvailable
+      mediaRecorder.onstop = onRecordingStop
+      mediaRecorder.start()
     }
-    mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' })
-    mediaRecorder.ondataavailable = onDataAvailable
-    mediaRecorder.onstop = onRecordingStop
-    mediaRecorder.start()
+    else{
+      console.log('No stream available')
+    }
   }
 
   const stopRecording = (): void => {
-    mediaRecorder.stop()
+    mediaRecorder && mediaRecorder.stop()
   }
 
   const onDataAvailable = (event: any): void => {
@@ -74,15 +87,27 @@ function App(): JSX.Element {
           chromeMediaSourceId: screenSource?.id
         }
       }})
-    console.log(screenSource)
+    // console.log(screenSource)
   }, [screenSource])
+
+  useEffect(() => {
+    assignStream()
+  }, [constraints])
+  
+  useEffect(() => {
+    console.log(screenSource);
+    screenSource && startVideoPreview()
+  }, [stream])
+
 
   return (
     <div className="flex flex-col items-center justify-center bg-black text-white h-dvh text-center">
-      <video ref={videoRef}></video>
+      <video className="w-1/2 m-4" ref={videoRef}></video>
       <VideoSource VideoSources={VideoSources} updateScreenId={setScreenSource} selectedScreenSource={screenSource} />
-      <button disabled={screenSource === null ? true : false} onClick={startRecording}>Start</button>
-      <button onClick={stopRecording}>stop</button>
+      <div className='flex my-2'>
+      <Btn disabled={screenSource === null ? true : false} onClick={startRecording}>Start</Btn>
+      <Btn onClick={stopRecording}>stop</Btn>
+      </div>
     </div>
   )
 }
